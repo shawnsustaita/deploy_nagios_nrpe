@@ -58,11 +58,11 @@ This variable is required.
 
 Examples
 ========
-ssh root@hostname 'wget http://deployscripthost/deploy_nagios_nrpe.txt -O- | key=value ... bash'
+ssh root@hostname 'wget http://deployserver/deploy_nagios_nrpe.txt -O- | key=value ... bash'
 
-ssh root@hostname 'wget http://deployscripthost/deploy_nagios_nrpe.txt -O- | NAGIOS_IP=1.2.3.4 bash'
+ssh root@hostname 'wget http://deployserver/deploy_nagios_nrpe.txt -O- | NAGIOS_IP=1.2.3.4 bash'
 
-ssh root@hostname 'wget http://deployscripthost/deploy_nagios_nrpe.txt -O- | NAGIOS_IP='1.2.3.4 5.6.7.8' BUILD_DIR=/tmp NRPE_OPTS=--with-ssl-lib=/usr/lib/x86_64-linux-gnu NRPE_CFG=http://shawnito/nrpe.cfg NRPE_DIR=/usr/local/nagios/etc bash'
+ssh root@hostname 'wget http://deployserver/deploy_nagios_nrpe.txt -O- | NAGIOS_IP='1.2.3.4 5.6.7.8' BUILD_DIR=/tmp NRPE_OPTS=--with-ssl-lib=/usr/lib/x86_64-linux-gnu NRPE_CFG=http://deployserver/nrpe.cfg NRPE_DIR=/usr/local/nagios/etc bash'
 
 
 Assumptions
