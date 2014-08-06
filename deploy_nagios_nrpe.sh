@@ -2,8 +2,8 @@
 
 
 ### Author:   Shawn Sustaita <shawn.sustaita@gmail.com>
-### Source:   https://github.com/shawnsustaita/deploy_nagios_nrpe
-### Date:     2014-08-05
+### Source:   http://github/shawnsustaita/TBD
+### Date:     2014-07-30
 ### Version:  0.1.0
 
 
@@ -16,6 +16,7 @@
 
 ### Variables
 #
+# NAGIOS_UID  - This variable is used to set the uid/gid for the nagios account.
 # BUILD_DIR   - This variable is used to change directory to a specific build dir.
 # PLUGINS_URL - This variable is used to fetch a specific nagios-plugins tarball.
 # PLUGINS_OPT - This variable is passed to the nagios-plugins configure script.
@@ -28,9 +29,11 @@
 
 
 ### Example
-# ssh root@hostname 'wget -q http://host/deploy_nagios_nrpe.sh -O - | key=value ... bash; echo $?'
+# ssh root@hostname 'wget http://host/deploy_nagios_nrpe.sh -O - | key=value ... bash; echo $?'
 #
-# ssh root@hostname 'wget -q http://host/deploy_nagios_nrpe.sh -O - | NAGIOS_IP="10.0.0.2" NRPE_OPTS="--with-ssl-lib=/usr/lib/x86_64-linux-gnu" bash; echo $?'
+# ssh root@hostname 'wget http://host/deploy_nagios_nrpe.sh -O - | NAGIOS_IP="10.0.0.2" NRPE_OPTS="--with-ssl-lib=/usr/lib/x86_64-linux-gnu" bash; echo $?'
+#
+# dsh -g nrpe_clients 'wget http://host/deploy_nagios_nrpe.sh -O - | NAGIOS_IP="10.0.0.2 10.0.0.3" bash; echo $?'
 
 
 ### Setup shell environment
@@ -65,8 +68,8 @@ shopt -s nocasematch
     }
     
     
-    ### Create nagios user, if missing
-    grep -q '^nagios:' /etc/passwd || useradd -u 7777 -M nagios  # Should be locked by default
+    ### Create nagios user, if missing (should be locked by default)
+    grep -q '^nagios:' /etc/passwd || [ -n "$NAGIOS_UID" ] && useradd -u "$NAGIOS_UID" -M nagios || useradd -M nagios
     
     
     ### Install libssl, if missing
@@ -78,9 +81,9 @@ shopt -s nocasematch
     wget -q -T 30 "$PLUGINS_URL" -O - | tar xzf -
     (
         cd nagios-plugins-2.0.3
-        ./configure -q $PLUGINS_OPTS
-        make -s
-        make -s install
+        ./configure $PLUGINS_OPTS
+        make
+        make install
     )
     
     
@@ -93,12 +96,12 @@ shopt -s nocasematch
     wget -q -T 30 "$NRPE_URL" -O - | tar xzf -
     (
         cd nrpe-2.15
-        ./configure -q $NRPE_OPTS
-        make -s all
-        make -s install-plugin
-        make -s install-daemon
-        make -s install-daemon-config
-        make -s install-xinetd
+        ./configure $NRPE_OPTS
+        make all
+        make install-plugin
+        make install-daemon
+        make install-daemon-config
+        make install-xinetd
     )
 
     
@@ -107,9 +110,7 @@ shopt -s nocasematch
     
     
     ### Adjust services file
-    grep -qi -e '^nrpe\b' -e '\b5666/tcp\b' /etc/services ||
-        cp -a /etc/services /etc/services.${DATE}         &&
-        echo -e 'nrpe\t\t5666/tcp\t\t\t# Nagios NRPE'     >> /etc/services
+    grep -qi -e '^nrpe\b' -e '\b5666/tcp\b' /etc/services || echo -e 'nrpe\t\t5666/tcp\t\t\t# Nagios NRPE' >> /etc/services
     
     
     ### Start/Restart xinetd
