@@ -28,9 +28,9 @@
 
 
 ### Example
-# ssh root@hostname 'wget -q http://host/deploy_nagios_nrpe.txt -O - | key=value ... bash; echo $?'
+# ssh root@hostname 'wget -q http://host/deploy_nagios_nrpe.sh -O - | key=value ... bash; echo $?'
 #
-# ssh root@hostname 'wget -q http://host/deploy_nagios_nrpe.txt -O - | NAGIOS_IP="10.0.0.2" NRPE_OPTS="--with-ssl-lib=/usr/lib/x86_64-linux-gnu" bash; echo $?'
+# ssh root@hostname 'wget -q http://host/deploy_nagios_nrpe.sh -O - | NAGIOS_IP="10.0.0.2" NRPE_OPTS="--with-ssl-lib=/usr/lib/x86_64-linux-gnu" bash; echo $?'
 
 
 ### Setup shell environment
