@@ -2,8 +2,8 @@
 
 
 ### Author:   Shawn Sustaita <shawn.sustaita@gmail.com>
-### Source:   http://github/shawnsustaita/TBD
-### Date:     2014-07-30
+### Source:   https://github.com/shawnsustaita/deploy_nagios_nrpe
+### Date:     2014-08-06
 ### Version:  0.1.0
 
 
