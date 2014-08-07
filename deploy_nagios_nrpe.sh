@@ -3,7 +3,7 @@
 
 ### Author:   Shawn Sustaita <shawn.sustaita@gmail.com>
 ### Source:   https://github.com/shawnsustaita/deploy_nagios_nrpe
-### Date:     2014-08-06
+### Date:     2014-08-07
 ### Version:  0.1.0
 
 
@@ -34,8 +34,8 @@
 ### Comments
 #
 # This script was created to faciliate remote installs of the Nagios' NRPE
-# client side plugins and NRPE daemon.  The service is handled by xinetd.  The
-# script only supports redhat and ubuntu distros, for now.
+# client-side plugins and NRPE daemon.  The service is handled by xinetd.  The
+# script only supports redhat and ubuntu distros.
 
 
 ### Variables

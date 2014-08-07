@@ -65,6 +65,11 @@ ssh root@hostname 'wget -q http://deployserver/deploy_nagios_nrpe.sh -O- | NAGIO
 ssh root@hostname 'wget -q http://deployserver/deploy_nagios_nrpe.sh -O- | NAGIOS_IP='1.2.3.4 5.6.7.8' BUILD_DIR=/tmp NRPE_OPTS=--with-ssl-lib=/usr/lib/x86_64-linux-gnu NRPE_CFG=http://deployserver/nrpe.cfg NRPE_DIR=/usr/local/nagios/etc bash'
 
 
+Testing
+=======
+The script has only been tested on Ubuntu 12.04 LTS and RHEL 5.
+
+
 Assumptions
 ===========
 wget is already installed on the systems.  root SSH key authentication is
