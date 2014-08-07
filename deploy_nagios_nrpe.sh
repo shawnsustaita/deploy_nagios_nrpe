@@ -130,7 +130,7 @@ shopt -s nocasematch
 
     
     ### Adjust NRPE service to accept connections from nagios server
-    perl -i -pe "s/127.0.0.1/127.0.0.1 $NAGIOS_IP/" /etc/xinetd.d/nrpe
+    perl -i -pe "s/127.0.0.1/127.0.0.1 $NAGIOS_IP /" /etc/xinetd.d/nrpe
     
     
     ### Adjust services file
