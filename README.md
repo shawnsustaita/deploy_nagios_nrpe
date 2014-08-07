@@ -13,8 +13,7 @@ service.
 
 Details
 =======
-The script was written to support Ubuntu and Redhat system but has only
-been tested on Ubuntu 12.04 LTS and RHEL 5, so far.
+The script was written to support Ubuntu and Redhat systems.
 
 The script creates the nagios user account.
 
