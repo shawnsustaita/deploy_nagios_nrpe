@@ -34,29 +34,29 @@
 
 ### Comments
 #
-# This script was created to faciliate remote installs of extra Nagios' NRPE
-# client-side plugins.
+# This script was created to faciliate deploying the Nagios NRPE's nrpe.cfg
+# configuration file.
 
 
 ### Variables
 # The following variables are required.
 #
-# PLUGIN_URL - URL of where to download the plugin.
-# PLUGIN_DIR - Directory of where to install the plugin.
+# CONFIG_URL - URL of where to download the plugin.
+# CONFIG_DIR - Directory of where to install the plugin.
 
 
 ### Example
-# ssh root@hostname 'wget -q http://host/deploy_nrpe_plugin.sh -O - | PLUGIN_URL="..." PLUGIN_DIR="..." bash'
+# ssh root@hostname 'wget -q http://host/deploy_nrpe_plugin.sh -O - | CONFIG_URL="..." CONFIG_DIR="..." bash'
 
 
 ### Setup shell environment
 set -e  # Exit if a command exits with a non-zero status
 
-[ -n "$PLUGIN_URL" ] || exit 1
-[ -n "$PLUGIN_DIR" ] || exit 1
+[ -n "$CONFIG_URL" ] || exit 1
+[ -n "$CONFIG_DIR" ] || exit 1
 
-PLUGIN=$( echo "$PLUGIN_URL" | perl -pe 's{^.*/}{}' )
+CONFIG=$( echo "$CONFIG_URL" | perl -pe 's{^.*/}{}' )
 
-wget -q -T 30 -N -P "$PLUGIN_DIR" "$PLUGIN_URL"
+wget -q -T 30 -N -P "$CONFIG_DIR" "$CONFIG_URL"
 
-chmod +x "${PLUGIN_DIR}/${PLUGIN}"
+chmod 644 "${CONFIG_DIR}/${CONFIG}"
