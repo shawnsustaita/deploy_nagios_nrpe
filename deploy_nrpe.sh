@@ -53,11 +53,11 @@
 
 
 ### Example
-# ssh root@hostname 'wget -q http://host/deploy_nagios_nrpe.sh -O - | key=value ... bash; echo $?'
+# ssh root@hostname 'wget -q http://host/deploy_nrpe.sh -O - | key=value ... bash; echo $?'
 #
-# ssh root@hostname 'wget -q http://host/deploy_nagios_nrpe.sh -O - | NAGIOS_IP="10.0.0.2" NRPE_OPTS="--with-ssl-lib=/usr/lib/x86_64-linux-gnu" bash; echo $?'
+# ssh root@hostname 'wget -q http://host/deploy_nrpe.sh -O - | NAGIOS_IP="10.0.0.2" NRPE_OPTS="--with-ssl-lib=/usr/lib/x86_64-linux-gnu" bash; echo $?'
 #
-# dsh -g nrpe_clients 'wget -q http://host/deploy_nagios_nrpe.sh -O - | NAGIOS_IP="10.0.0.2 10.0.0.3" bash; echo $?'
+# dsh -g nrpe_clients 'wget -q http://host/deploy_nrpe.sh -O - | NAGIOS_IP="10.0.0.2 10.0.0.3" bash; echo $?'
 
 
 ### Setup shell environment
@@ -149,5 +149,5 @@ shopt -s nocasematch
     echo
     echo "Script ended at $( date )."
     
-) &> deploy_nagios_nrpe.sh.out
+) &> deploy_nrpe.sh.out
 
