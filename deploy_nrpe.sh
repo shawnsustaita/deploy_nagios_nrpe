@@ -108,6 +108,7 @@ shopt -s nocasematch
         ./configure $PLUGINS_OPTS
         make
         make install
+        make clean
     )
     
     
@@ -126,6 +127,7 @@ shopt -s nocasematch
         make install-daemon
         make install-daemon-config
         make install-xinetd
+        make clean
     )
 
     
