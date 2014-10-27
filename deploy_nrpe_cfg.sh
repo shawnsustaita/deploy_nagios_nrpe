@@ -39,9 +39,7 @@
 
 
 ### Variables
-# The following variables are required.
-#
-# CONFIG_URL - URL of where to download the plugin.
+# CONFIG_URL - URL of where to download the plugin.  (required)
 # CONFIG_DIR - Directory of where to install the plugin.
 
 
@@ -53,10 +51,12 @@
 set -e  # Exit if a command exits with a non-zero status
 
 [ -n "$CONFIG_URL" ] || exit 1
-[ -n "$CONFIG_DIR" ] || exit 1
 
 CONFIG=$( echo "$CONFIG_URL" | perl -pe 's{^.*/}{}' )
 
-wget -q -T 30 -N -P "$CONFIG_DIR" "$CONFIG_URL"
+[ -n "$CONFIG_DIR" ] && wget -q -T 30 -N -P "$CONFIG_DIR" "$CONFIG_URL"
+[ -n "$CONFIG_DIR" ] || wget -q -T 30 -N -P /usr/local/nagios/etc "$CONFIG_URL"
 
-chmod 644 "${CONFIG_DIR}/${CONFIG}"
+[ -n "$CONFIG_DIR" ] && chmod 644 "${CONFIG_DIR}/${CONFIG}"
+[ -n "$CONFIG_DIR" ] || chmod 644 "/usr/local/nagios/etc/${CONFIG}"
+
