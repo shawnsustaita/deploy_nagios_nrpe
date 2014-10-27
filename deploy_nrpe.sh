@@ -93,7 +93,10 @@ shopt -s nocasematch
     
     
     ### Create nagios user, if missing (should be locked by default)
-    grep -q '^nagios:' /etc/passwd || [ -n "$NAGIOS_UID" ] && useradd -u "$NAGIOS_UID" -M nagios || useradd -M nagios
+    if ! grep -q '^nagios:' /etc/passwd; then
+        [ -n "$NAGIOS_UID" ] && useradd -u "$NAGIOS_UID" -M nagios
+        [ -n "$NAGIOS_UID" ] || useradd -M nagios
+    fi
     
     
     ### Install libssl, if missing
@@ -104,7 +107,7 @@ shopt -s nocasematch
     ### Download, build and install Plugins
     wget -q -T 30 "$PLUGINS_URL" -O - | tar xzf -
     (
-        cd nagios-plugins-2.0.3
+        cd nagios-plugins*
         ./configure $PLUGINS_OPTS
         make
         make install
@@ -112,15 +115,17 @@ shopt -s nocasematch
     )
     
     
-    ### Install xinetd, if missing
-    [[ $MYDISTRO =~ redhat ]] && [[ ! $( which xinetd ) ]] && yum -y install xinetd     && chkconfig xinetd on
-    [[ $MYDISTRO =~ ubuntu ]] && [[ ! $( which xinetd ) ]] && apt-get -y install xinetd && update-rc.d xinetd defaults
-    
+    ### Install xinetd, if missing, and enable service
+    [[ $MYDISTRO =~ redhat ]] && [[ ! $( which xinetd ) ]] && yum -y install xinetd
+    [[ $MYDISTRO =~ redhat ]] && [[   $( which xinetd ) ]] && chkconfig xinetd on
+    [[ $MYDISTRO =~ ubuntu ]] && [[ ! $( which xinetd ) ]] && apt-get -y install xinetd
+    [[ $MYDISTRO =~ ubuntu ]] && [[   $( which xinetd ) ]] && update-rc.d xinetd defaults
+
     
     ### Download, build and install NRPE daemon
     wget -q -T 30 "$NRPE_URL" -O - | tar xzf -
     (
-        cd nrpe-2.15
+        cd nrpe*
         ./configure $NRPE_OPTS
         make all
         make install-plugin
@@ -145,7 +150,7 @@ shopt -s nocasematch
 
     ### Deploy default nrpe.cfg
     [ -n "$NRPE_CFG" ] && [ -n "$NRPE_DIR" ] && wget -q -T 30 -N -P "$NRPE_DIR" "$NRPE_CFG"
-    [ -n "$NRPE_CFG" ] && [ -z "$NRPE_DIR" ] && wget -q -T 30 -N "$NRPE_CFG"
+    [ -n "$NRPE_CFG" ] && [ -z "$NRPE_DIR" ] && wget -q -T 30 -N -P /usr/local/nagios/etc "$NRPE_CFG"
     
 
     echo

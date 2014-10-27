@@ -39,9 +39,7 @@
 
 
 ### Variables
-# The following variables are required.
-#
-# PLUGIN_URL - URL of where to download the plugin.
+# PLUGIN_URL - URL of where to download the plugin.  (required)
 # PLUGIN_DIR - Directory of where to install the plugin.
 
 
@@ -53,10 +51,12 @@
 set -e  # Exit if a command exits with a non-zero status
 
 [ -n "$PLUGIN_URL" ] || exit 1
-[ -n "$PLUGIN_DIR" ] || exit 1
 
 PLUGIN=$( echo "$PLUGIN_URL" | perl -pe 's{^.*/}{}' )
 
-wget -q -T 30 -N -P "$PLUGIN_DIR" "$PLUGIN_URL"
+[ -n "$PLUGIN_DIR" ] && wget -q -T 30 -N -P "$PLUGIN_DIR" "$PLUGIN_URL"
+[ -n "$PLUGIN_DIR" ] || wget -q -T 30 -N -P /usr/local/nagios/libexec "$PLUGIN_URL"
 
-chmod +x "${PLUGIN_DIR}/${PLUGIN}"
+[ -n "$PLUGIN_DIR" ] && chmod +x "${PLUGIN_DIR}/${PLUGIN}"
+[ -n "$PLUGIN_DIR" ] || chmod +x "/usr/local/nagios/libexec/${PLUGIN}"
+
